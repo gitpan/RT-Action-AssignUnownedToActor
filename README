@@ -1,0 +1,48 @@
+NAME
+    RT-Action-AssignUnownedToActor - Assigns unowned tickets to the
+    transaction actor
+
+DESCRIPTION
+    Assigns tickets to the actor of the transaction that triggered the
+    scrip, if all the conditions below are met:
+
+    The ticket is owned by Nobody
+    The actor isn't RT_System
+    The actor isn't a requestor on the ticket
+    The actor has the right to own the ticket
+
+    Note that this means the requestor will never be assigned as the owner
+    by this action.
+
+INSTALLATION
+    perl Makefile.PL
+    make
+    make install
+        May need root permissions
+
+    make initdb
+        Only run this once or you'll end up with duplicate scrip actions.
+
+    Edit your /opt/rt4/etc/RT_SiteConfig.pm
+        Add this line:
+
+            Set(@Plugins, qw(RT::Action::AssignUnownedToActor));
+
+        or add "RT::Action::AssignUnownedToActor" to your existing @Plugins
+        line.
+
+    Clear your mason cache
+            rm -rf /opt/rt4/var/mason_data/obj
+
+    Restart your webserver
+    Create an appropriate Scrip using this new action
+
+AUTHOR
+    Thomas Sibley <trs@bestpractical.com>
+
+LICENCE AND COPYRIGHT
+    This software is copyright (c) 2011 by Best Practical Solutions.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
